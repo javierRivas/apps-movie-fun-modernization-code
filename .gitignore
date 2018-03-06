@@ -4,5 +4,6 @@ classes
 build
 .idea
 .env
+gradle/
 .gradle/
 .env_r
