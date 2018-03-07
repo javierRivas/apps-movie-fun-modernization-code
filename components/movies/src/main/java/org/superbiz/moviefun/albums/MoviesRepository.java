@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.superbiz.moviefun.movies;
+package org.superbiz.moviefun.albums;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -29,7 +29,7 @@ import javax.persistence.metamodel.EntityType;
 import java.util.List;
 
 @Repository
-public class MoviesBean {
+public class MoviesRepository {
 
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
@@ -60,7 +60,9 @@ public class MoviesBean {
     @Transactional
     public void deleteMovieId(long id) {
         Movie movie = entityManager.find(Movie.class, id);
-        deleteMovie(movie);
+        if(movie !=null) {
+            deleteMovie(movie);
+        }
     }
 
     public List<Movie> getMovies() {

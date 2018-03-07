@@ -1,0 +1,34 @@
+---
+memory: 1G
+instances: 1
+applications:
+- name: album-service
+  path: applications/album-service/build/libs/album-service-1.1.0-SNAPSHOT.jar
+  services:
+  - albums-database
+  - aws-s3
+  routes:
+  - route: album-service-rn.apps.longs.pal.pivotal.io
+  env:
+    S3_ACCESSKEY: AKIAIY3HIHOJSPX5R3QA
+    S3_ENDPOINTURL: s3.amazonaws.com
+    S3_SECRETKEY: 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
+    S3_BUCKETNAME: cf-3d878389-0757-4de1-8f48-d2e2ceda179d
+- name: movie-service
+  path: applications/movie-service/build/libs/movie-service-1.1.0-SNAPSHOT.jar
+  services:
+  - movies-database
+  routes:
+  - route: movie-service-rn.apps.longs.pal.pivotal.io
+- name: movie-fun-app
+  path: applications/movie-fun-app/build/libs/movie-fun-app-1.1.0-SNAPSHOT.war
+  random-route: true
+  services:
+  - aws-s3
+  env:
+    ALBUMS_URL: http://album-service-rn.apps.longs.pal.pivotal.io/albums
+    MOVIES_URL: http://movie-service-rn.apps.longs.pal.pivotal.io/movies
+    S3_ACCESSKEY: AKIAIY3HIHOJSPX5R3QA
+    S3_ENDPOINTURL: s3.amazonaws.com
+    S3_SECRETKEY: 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
+    S3_BUCKETNAME: cf-3d878389-0757-4de1-8f48-d2e2ceda179d

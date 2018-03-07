@@ -53,3 +53,33 @@ task dependenciesGraph(dependsOn: "dependenciesGraphDot", type: Exec) {
 task clean(type: Delete) {
     delete "build"
 }
+
+task deploy {
+    doLast {
+        ["cf push"
+        ].each { println it.execute().text }
+//
+//        println "cf push".execute().text
+    }
+}
+
+task setupPcfEnv {
+    doLast {
+        [
+                "cf create-service p-mysql p-mysql movies-database",
+                "cf create-service p-mysql p-mysql albums-database",
+//                "cf mysql albums-database < databases/albums/schema.ddl"
+        ].each { println it.execute().text }
+    }
+}
+task teardownPcfEnv {
+    doLast {
+        [
+                "cf delete -f album-service",
+                "cf delete -f movie-service",
+                "cf delete -f movie-fun-app",
+                "cf delete-service -f movies-database",
+                "cf delete-service -f albums-database",
+        ].each { println it.execute().text }
+    }
+}
